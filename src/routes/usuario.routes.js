@@ -12,6 +12,8 @@ route.get('/NivelGaviota',UserControl.leerTres )/* realizar la peticion get,put,
 
 route.get('/NivelCondor',UserControl.leerCuatro )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
 
+route.get('/NivelAguila',UserControl.leerCinco )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
+
 
 route.get('/obtener/:indexUsuario',UserControl.leerBase )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
 route.put('/modificar/:indexUsuario',UserControl.modificar )/* se selecciona la funcion que coresponde con la orden se adiciona el :index  para operaciones de modificacion de clientes */

@@ -3,6 +3,7 @@ const NivelCanario = require('../models/usuario.models')/* donde se encuentra el
 const NivelPaloma = require('../models/usuario.models2')
 const NivelGaviota = require('../models/usuario.models3')
 const NivelCondor = require('../models/usuario.models4')
+const NivelAguila = require('../models/usuario.models5')
 /* req es entrada del fronrnent 
     y res es la salida del bakend */
 
@@ -27,7 +28,7 @@ class MezclarArrays1 {
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-/* CLASE PARA MEZCLAR LAS CUATRO OPCIONES DE RESPUESTA */
+/* CLASE PARA MEZCLAR LAS CUATRO POSIBLES RESPUESTAS (1 REAL, 3 FALSAS)*/
 class MezclarArrays2 {
     constructor(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -58,7 +59,7 @@ CuestionarioBase.crear = async (req, res) => {
 
 
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
-    const nuevousuario = new NivelCondor({
+    const nuevousuario = new NivelAguila({
         pregunta,
         respuesta,
 
@@ -79,7 +80,7 @@ CuestionarioBase.leerUno = async (req, res) => {
     var { respuesta, pregunta } = listaBaseObjeto1
 
     /* arrays con las opciones falsas */
-    const ColoresFalsos = ["verde", "morado", "gris", "dorado", "plateado", "naranja", "purpura"]
+    const ColoresFalsos = ["verde", "morado", "gris", "dorado", "plateado", "naranja", "purpura", "amariyo","asul"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
@@ -114,7 +115,7 @@ CuestionarioBase.leerDos = async (req, res) => {
     var { respuesta, pregunta } = listaBaseObjeto
 
     /* arrays con las opciones falsas */
-    const CiudadesFalsos = ["Medellin", "Cali", "Bogota", "Amazonas", "Boyaca", "San andres", "Choco"]
+    const CiudadesFalsos = ["Medellin", "Cali", "Bogota", "Amazonas", "Boyaca", "San andres", "Choco","Macondo"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
@@ -185,6 +186,38 @@ CuestionarioBase.leerCuatro = async (req, res) => {
     /* ESCOJE 3 VALORES FALSOS A AZAR */
 
     const RespuestasFalsasXVerdaderas = new MezclarArrays1(PlantasFalsos);
+
+    /* agrego la respuesta verdadera a las tres falsas escogidas para obtener 4 posibles opciones,  */
+    RespuestasFalsasXVerdaderas.push(respuesta)
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* reorganizo las cuatro posibles opciones */
+
+    /* utilizo la clase par amezclar las cuatro opciones */
+    const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
+
+    res.json(pregunta + " " + arr)
+    /*  res.json(pregunta+" "+respuesta) */
+
+
+
+}
+
+CuestionarioBase.leerCinco = async (req, res) => {
+    /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
+    let listaBaseArreglo = await NivelAguila.aggregate([{ $sample: { size: 1 } }])
+    /* elimino el arreglo para tener solo el objeto*/
+    var [listaBaseObjeto] = listaBaseArreglo
+    /* destructuracion del objeto */
+    var { respuesta, pregunta } = listaBaseObjeto
+
+    /* arrays con las opciones falsas */
+    const literaturaFalsos = ["1446 - 1616", "1744 - 1814", "1744 - 1832", "1775 - 1815", "1797 - 1851", "1803 - 1885", "1819 - 1892"]
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* ESCOJE 3 VALORES FALSOS A AZAR */
+
+    const RespuestasFalsasXVerdaderas = new MezclarArrays1(literaturaFalsos);
 
     /* agrego la respuesta verdadera a las tres falsas escogidas para obtener 4 posibles opciones,  */
     RespuestasFalsasXVerdaderas.push(respuesta)
