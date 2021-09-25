@@ -1,6 +1,6 @@
 const CuestionarioBase = {}/* determinar el mombre de la constante que se llamara el control */
-const Cuestionario = require('../models/usuario.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos */
-const Cuestionario2 = require('../models/nivel2.models')
+const NivelCanario = require('../models/usuario.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos */
+const NivelPaloma = require('../models/usuario.models2')
 /* req es entrada del fronrnent 
     y res es la salida del bakend */
 
@@ -48,14 +48,15 @@ class MezclarArrays2 {
 }
 
 
-/* se crean las funciones que se envian al archivo routes.js */
-CuestionarioBase.leer = async (req, res) => {
+
+
+CuestionarioBase.leerUno = async (req, res) => {
     /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
-    let listaBaseArreglo = await Cuestionario.aggregate([{ $sample: { size: 1 } }])
+    let listaBaseArreglo1 = await NivelCanario.aggregate([{ $sample: { size: 1 } }])
     /* elimino el arreglo para tener solo el objeto*/
-    var [listaBaseObjeto] = listaBaseArreglo
+    var [listaBaseObjeto1] = listaBaseArreglo1
     /* destructuracion del objeto */
-    var { respuesta, pregunta } = listaBaseObjeto
+    var { respuesta, pregunta } = listaBaseObjeto1
 
     /* arrays con las opciones falsas */
     const ColoresFalsos = ["verde", "morado", "gris", "dorado", "plateado", "naranja", "purpura"]
@@ -81,21 +82,24 @@ CuestionarioBase.leer = async (req, res) => {
 
 }
 
-CuestionarioBase.leer2 = async (req, res) => {
+
+
+
+CuestionarioBase.leerDos = async (req, res) => {
     /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
-    let listaBaseArreglo = await Cuestionario2.aggregate([{ $sample: { size: 1 } }])
+    let listaBaseArreglo = await NivelPaloma.aggregate([{ $sample: { size: 1 } }])
     /* elimino el arreglo para tener solo el objeto*/
     var [listaBaseObjeto] = listaBaseArreglo
     /* destructuracion del objeto */
     var { respuesta, pregunta } = listaBaseObjeto
 
     /* arrays con las opciones falsas */
-    const ColoresFalsos = ["Medellin", "Cali", "Bogota", "Amazonas", "Boyaca", "San andres", "Choco"]
+    const CiudadesFalsos = ["Medellin", "Cali", "Bogota", "Amazonas", "Boyaca", "San andres", "Choco"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
 
-    const RespuestasFalsasXVerdaderas = new MezclarArrays1(ColoresFalsos);
+    const RespuestasFalsasXVerdaderas = new MezclarArrays1(CiudadesFalsos);
 
     /* agrego la respuesta verdadera a las tres falsas escogidas para obtener 4 posibles opciones,  */
     RespuestasFalsasXVerdaderas.push(respuesta)

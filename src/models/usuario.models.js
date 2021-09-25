@@ -4,7 +4,7 @@ const {Schema}=mongoose/* se crea el esquema de la base de datos */
 /* ACA SE RESPETA LA PALABRA RESERVADA SCHEMA */
 /* creamos es modelo RESPETANDO  =NEW SCHEMA*/
 
-const NuevoModelTabla=new Schema({
+const NuevoModelTabla1=new Schema({
   
 
     pregunta: String,
@@ -13,4 +13,4 @@ const NuevoModelTabla=new Schema({
 }
 )
 
-module.exports=mongoose.model('Cuestionario',NuevoModelTabla) /* user2 sera el  nombre de la tabla y */
+module.exports=mongoose.model('canario',NuevoModelTabla1) /* user2 sera el  nombre de la tabla y */
