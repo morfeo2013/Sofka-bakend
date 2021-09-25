@@ -57,7 +57,7 @@ CuestionarioBase.crear = async (req, res) => {
 
 
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
-    const nuevousuario = new NivelGaviota({
+    const nuevousuario = new NivelPaloma({
         pregunta,
         respuesta,
 
