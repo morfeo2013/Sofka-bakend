@@ -115,7 +115,7 @@ CuestionarioBase.leerDos = async (req, res) => {
     var { respuesta, pregunta } = listaBaseObjeto
 
     /* arrays con las opciones falsas */
-    const CiudadesFalsos = ["Medellin", "Cali", "Bogota", "Amazonas", "Boyaca", "San andres", "Choco","Macondo"]
+    const CiudadesFalsos = ["Medellin", "Cali", "Tokio", "Amazonas", "Kansas", "Caracas", "Choco","Kanagawa"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
@@ -148,7 +148,7 @@ CuestionarioBase.leerTres = async (req, res) => {
     var { respuesta, pregunta } = listaBaseObjeto
 
     /* arrays con las opciones falsas */
-    const PaisesFalsos = ["Colombia", "Argentina", "Alemania", "Australia", "China", "Isrrael", "Congo"]
+    const PaisesFalsos = ["Colombia", "Argentina", "Alemania", "Australia", "China", "Isrrael", "Congo","Indonesia"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
