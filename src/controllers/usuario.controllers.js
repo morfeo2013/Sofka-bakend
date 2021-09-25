@@ -1,6 +1,7 @@
 const CuestionarioBase = {}/* determinar el mombre de la constante que se llamara el control */
 const NivelCanario = require('../models/usuario.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos */
 const NivelPaloma = require('../models/usuario.models2')
+const NivelGaviota = require('../models/usuario.models3')
 /* req es entrada del fronrnent 
     y res es la salida del bakend */
 
@@ -48,7 +49,25 @@ class MezclarArrays2 {
 }
 
 
+CuestionarioBase.crear = async (req, res) => {
 
+    /* res.send('CREAR USUARIO funcion post') */
+    /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
+    const { pregunta, respuesta } = req.body   /* estos corresponde a los del models.js */
+
+
+    /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
+    const nuevousuario = new NivelGaviota({
+        pregunta,
+        respuesta,
+
+
+    })
+    await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
+    res.json({ mensaje: 'Mensaje desde el Backend: Usuario gardado exitosamente' }) /* este mensaje se puede mostrar en el frontent */
+
+
+}
 
 CuestionarioBase.leerUno = async (req, res) => {
     /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
@@ -118,7 +137,37 @@ CuestionarioBase.leerDos = async (req, res) => {
 }
 
 
+CuestionarioBase.leerTres = async (req, res) => {
+    /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
+    let listaBaseArreglo = await NivelGaviota.aggregate([{ $sample: { size: 1 } }])
+    /* elimino el arreglo para tener solo el objeto*/
+    var [listaBaseObjeto] = listaBaseArreglo
+    /* destructuracion del objeto */
+    var { respuesta, pregunta } = listaBaseObjeto
 
+    /* arrays con las opciones falsas */
+    const PaisesFalsos = ["Colombia", "Argentina", "Alemania", "Australia", "China", "Isrrael", "Congo"]
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* ESCOJE 3 VALORES FALSOS A AZAR */
+
+    const RespuestasFalsasXVerdaderas = new MezclarArrays1(PaisesFalsos);
+
+    /* agrego la respuesta verdadera a las tres falsas escogidas para obtener 4 posibles opciones,  */
+    RespuestasFalsasXVerdaderas.push(respuesta)
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* reorganizo las cuatro posibles opciones */
+
+    /* utilizo la clase par amezclar las cuatro opciones */
+    const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
+
+    res.json(pregunta + " " + arr)
+    /*  res.json(pregunta+" "+respuesta) */
+
+
+
+}
 
 
 CuestionarioBase.leerBase = async (req, res) => {
@@ -190,25 +239,7 @@ CuestionarioBase.borrar = async (req, res) => {
         autor,
         genero,
         ficha */
-CuestionarioBase.crear = async (req, res) => {
 
-    /* res.send('CREAR USUARIO funcion post') */
-    /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
-    const { pregunta, respuesta } = req.body   /* estos corresponde a los del models.js */
-
-
-    /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
-    const nuevousuario = new Cuestionario({
-        pregunta,
-        respuesta,
-
-
-    })
-    await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
-    res.json({ mensaje: 'Mensaje desde el Backend: Usuario gardado exitosamente' }) /* este mensaje se puede mostrar en el frontent */
-
-
-}
 
 
 
