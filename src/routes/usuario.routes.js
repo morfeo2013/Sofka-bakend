@@ -5,6 +5,9 @@ const UserControl = require('../controllers/usuario.controllers')/* importar el 
 /* ACA SE CREAN LAS RUTAS QUESERAN LEIDAS EN LA WEB */
 
 route.get('/obtener1',UserControl.leer )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
+
+route.get('/obtener2',UserControl.leer2 )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
+
 route.get('/obtener/:indexUsuario',UserControl.leerBase )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
 route.put('/modificar/:indexUsuario',UserControl.modificar )/* se selecciona la funcion que coresponde con la orden se adiciona el :index  para operaciones de modificacion de clientes */
 route.delete('/eliminar/:indexUsuario',UserControl.borrar )
