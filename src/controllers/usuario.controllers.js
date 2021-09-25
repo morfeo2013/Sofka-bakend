@@ -9,56 +9,61 @@ const Cuestionario = require('../models/usuario.models')/* donde se encuentra el
 
 /* se crean las funciones que se envian al archivo routes.js */
 CuestionarioBase.leer = async (req, res) => {
-    /* res.send('hola mundo')  */
-
-    /* creo una constante y le asigno el valor de guardarmodelo  esta se le agrega la propiedadd  .find */
-    /* esta le permite recorer y extraer  todos los json guardados */
 
 
-    /* Obtenemos un valor aleatorio con ".aggregate([{ $sample: { size: 1 } }])"*/
+
+    /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
     let listaBaseArreglo = await Cuestionario.aggregate([{ $sample: { size: 1 } }])
-    /* elimino el arreglo */
-    var [listaBaseObjeto]=listaBaseArreglo
+    /* elimino el arreglo para tener solo el objeto*/
+    var [listaBaseObjeto] = listaBaseArreglo
     /* destructuracion del objeto */
-    var{respuesta,pregunta}=listaBaseObjeto
-    const ColoresFalsos=["verde","morado","gris","dorado","plateado"]
-   
-    var cuatroRandom = [];
+    var { respuesta, pregunta } = listaBaseObjeto
+
+    /* arrays con las opciones falsas */
+    const ColoresFalsos = ["verde", "morado", "gris", "dorado", "plateado", "naranja", "purpura"]
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* ESCOJE 3 VALORES FALSOS A AZAR */
+
+    var ColoresFalsosX = [];
     var posicionesElegibles = [];
     var i, r;
     for (i = 0; i < ColoresFalsos.length; i++) posicionesElegibles[i] = i;
     for (i = 0; i < 3; i++) {
-      r = Math.floor(Math.random() * posicionesElegibles.length);
-      cuatroRandom.push(ColoresFalsos[posicionesElegibles[r]]);
-      posicionesElegibles.splice(r, 1);
+        r = Math.floor(Math.random() * posicionesElegibles.length);
+        ColoresFalsosX.push(ColoresFalsos[posicionesElegibles[r]]);
+        posicionesElegibles.splice(r, 1);
     }
-   /*  console.log(cuatroRandom.toString()); */
-    cuatroRandom.push(respuesta)
+ 
+  /* agrego la respuesta verdadera a las tres falsas escogidas para obtener 4 posibles opciones,  */
+    ColoresFalsosX.push(respuesta)
 
-
-    function shuffle(array) {
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+   /* reorganizo las cuatro posibles opciones */
+  
+  function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
-      
+
         // Mientras queden elementos a mezclar...
         while (0 !== currentIndex) {
-      
-          // Seleccionar un elemento sin mezclar...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-      
-          // E intercambiarlo con el elemento actual
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
-        }
-      
-        return array;
-      }
-      arr = shuffle(cuatroRandom);
 
-    res.json(pregunta+" "+arr)
-   /*  res.json(pregunta+" "+respuesta) */
-    
+            // Seleccionar un elemento sin mezclar...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // E intercambiarlo con el elemento actual
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+    arr = shuffle(ColoresFalsosX);
+
+    res.json(pregunta + " " + arr)
+    /*  res.json(pregunta+" "+respuesta) */
+
 
 
 
@@ -79,10 +84,10 @@ CuestionarioBase.leerBase = async (req, res) => {
      para sacarlo de los parametros de la web (params)
       para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
 
-     const usuarioUnico= await Cuestionario.findById({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
+    const usuarioUnico = await Cuestionario.findById({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
         req.body) /* muestraun usuario index todo lo que le llegue por el req.bodyen el _id encontrado  con findById*/
- 
-        res.json(usuarioUnico)
+
+    res.json(usuarioUnico)
 
 
 }
@@ -139,14 +144,14 @@ CuestionarioBase.crear = async (req, res) => {
 
     /* res.send('CREAR USUARIO funcion post') */
     /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
-    const {pregunta,respuesta } = req.body   /* estos corresponde a los del models.js */
+    const { pregunta, respuesta } = req.body   /* estos corresponde a los del models.js */
 
 
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
     const nuevousuario = new Cuestionario({
         pregunta,
         respuesta,
-        
+
 
     })
     await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
@@ -157,4 +162,4 @@ CuestionarioBase.crear = async (req, res) => {
 
 
 
-module.exports = CuestionarioBase 
+module.exports = CuestionarioBase
