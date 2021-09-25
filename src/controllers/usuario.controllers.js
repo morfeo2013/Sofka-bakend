@@ -2,6 +2,7 @@ const CuestionarioBase = {}/* determinar el mombre de la constante que se llamar
 const NivelCanario = require('../models/usuario.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos */
 const NivelPaloma = require('../models/usuario.models2')
 const NivelGaviota = require('../models/usuario.models3')
+const NivelCondor = require('../models/usuario.models4')
 /* req es entrada del fronrnent 
     y res es la salida del bakend */
 
@@ -57,7 +58,7 @@ CuestionarioBase.crear = async (req, res) => {
 
 
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
-    const nuevousuario = new NivelPaloma({
+    const nuevousuario = new NivelCondor({
         pregunta,
         respuesta,
 
@@ -152,6 +153,38 @@ CuestionarioBase.leerTres = async (req, res) => {
     /* ESCOJE 3 VALORES FALSOS A AZAR */
 
     const RespuestasFalsasXVerdaderas = new MezclarArrays1(PaisesFalsos);
+
+    /* agrego la respuesta verdadera a las tres falsas escogidas para obtener 4 posibles opciones,  */
+    RespuestasFalsasXVerdaderas.push(respuesta)
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* reorganizo las cuatro posibles opciones */
+
+    /* utilizo la clase par amezclar las cuatro opciones */
+    const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
+
+    res.json(pregunta + " " + arr)
+    /*  res.json(pregunta+" "+respuesta) */
+
+
+
+}
+
+CuestionarioBase.leerCuatro = async (req, res) => {
+    /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
+    let listaBaseArreglo = await NivelCondor.aggregate([{ $sample: { size: 1 } }])
+    /* elimino el arreglo para tener solo el objeto*/
+    var [listaBaseObjeto] = listaBaseArreglo
+    /* destructuracion del objeto */
+    var { respuesta, pregunta } = listaBaseObjeto
+
+    /* arrays con las opciones falsas */
+    const PlantasFalsos = ["alicade", "Mitenix animus", "Chupameestepenco", "menta pericua", "Arbutus citrux", "Pruneles luzitanica", "Tronco retorcidus"]
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* ESCOJE 3 VALORES FALSOS A AZAR */
+
+    const RespuestasFalsasXVerdaderas = new MezclarArrays1(PlantasFalsos);
 
     /* agrego la respuesta verdadera a las tres falsas escogidas para obtener 4 posibles opciones,  */
     RespuestasFalsasXVerdaderas.push(respuesta)
