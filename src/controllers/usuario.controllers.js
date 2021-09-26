@@ -1,5 +1,9 @@
-const CuestionarioBase = {}/* determinar el mombre de la constante que se llamara el control */
-const NivelCanario = require('../models/usuario.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos */
+
+/* determinar el mombre de la constante que se llamara el control */
+const CuestionarioBase = {}
+
+/* llamado a la base de datos segun su nivel de dificultad */
+const NivelCanario = require('../models/usuario.models')
 const NivelPaloma = require('../models/usuario.models2')
 const NivelGaviota = require('../models/usuario.models3')
 const NivelCondor = require('../models/usuario.models4')
@@ -8,9 +12,7 @@ const NivelAguila = require('../models/usuario.models5')
 /* BASE DATOS PARA LOS JUGADORES */
 const IngresoJugador = require('../models/jugadores.models')
 
-const LeerJugador = require('../models/jugadores.models')
-/* req es entrada del fronrnent 
-    y res es la salida del bakend */
+
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* CLASES */
@@ -56,50 +58,52 @@ class MezclarArrays2 {
 }
 
 
+/* LEER LISTA DE JUGADORES */
+
 CuestionarioBase.LeerJugador = async (req, res) => {
-const listarJugadores =await IngresoJugador.find({})
-res.json(listarJugadores)/* envio el objeto como json  */
+    const listarJugadores = await IngresoJugador.find({})
+    res.json(listarJugadores)/* envio el objeto como json  */
 }
 
 
+/* AGREGAR JUGADORES A LA BASE DE DATOS */
 
 CuestionarioBase.crearJugador = async (req, res) => {
 
-    /* res.send('CREAR USUARIO funcion post') */
-    /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
-    
-    const { nombre, puntaje } = req.body   /* estos corresponde a los del models.js */
+
+    const { nombre, puntaje } = req.body   /*recive estos, corresponde a los del models.js */
 
 
     /* VALIDACION DE USUARIO */
     /* antes de ingresar el Nuevo jugador se realiza una verificacion si ya esta en la base de datos */
-  
+
+    const VerificacionJugador = await IngresoJugador.findOne({ nombre: nombre })
+    /* tome de la base de datos IngresoJugador la propiedad nombre y comparelo con el dato ingresdo desde el frontend con la propiedad nombre  */
+
+    /* crea la condicion si esta repetido  if y else*/
+    if (VerificacionJugador) {
+        res.json({ mensage: 'Lo sentimos, pero solo puedes participar una sola vez' })
+
+    } else {
 
 
-      /* SE HARA UNA VERIFICACION EN LA BASE DE DATOS DI EL CORREO INGRESADO ESTA YA CREADO */
-      const VerificacionJugador = await IngresoJugador.findOne({ nombre: nombre })
-      /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo) */
-  
-      /* crea la condicion si esta repetido se us con if y else*/
-      if (VerificacionJugador) {
-          res.json({ mensage: 'Lo sentimos, pero solo puedes participar una sola vez' })
-  
-      } else {
-    
+
+        /* se crea un nuevo modelo utilizando el que esta en la direccion IngresoJugador asignando la informacion*/
+        const nuevousuario = new IngresoJugador({
+            nombre,
+            puntaje,
 
 
-    /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
-    const nuevousuario = new IngresoJugador({
-        nombre,
-        puntaje,
-
-
-    })
-    await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
-    res.json({ mensaje: 'Mensaje desde el Backend: Jugador Agregado' }) /* este mensaje se puede mostrar en el frontent */
-}
+        })
+        await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
+        res.json({ mensaje: 'Mensaje desde el Backend: Jugador Agregado' }) /* este mensaje se puede mostrar en el frontent */
+    }
 
 }
+
+
+/* ORDENAMIENTO PREGUNTAS SEGUN SU NIVEL DE */
+
 
 CuestionarioBase.leerUno = async (req, res) => {
     /* Obtenemos un valor aleatorio DE LA BASES DE DATOS  ".aggregate([{ $sample: { size: 1 } }])"*/
@@ -110,7 +114,7 @@ CuestionarioBase.leerUno = async (req, res) => {
     var { respuesta, pregunta } = listaBaseObjeto1
 
     /* arrays con las opciones falsas */
-    const ColoresFalsos = ["verde", "morado", "gris", "dorado", "plateado", "naranja", "purpura", "amariyo","asul"]
+    const ColoresFalsos = ["verde", "morado", "gris", "dorado", "plateado", "naranja", "purpura", "amariyo", "asul"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
@@ -145,7 +149,7 @@ CuestionarioBase.leerDos = async (req, res) => {
     var { respuesta, pregunta } = listaBaseObjeto
 
     /* arrays con las opciones falsas */
-    const CiudadesFalsos = ["Medellin", "Cali", "Tokio", "Amazonas", "Kansas", "Caracas", "Choco","Kanagawa"]
+    const CiudadesFalsos = ["Medellin", "Cali", "Tokio", "Amazonas", "Kansas", "Caracas", "Choco", "Kanagawa"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
@@ -178,7 +182,7 @@ CuestionarioBase.leerTres = async (req, res) => {
     var { respuesta, pregunta } = listaBaseObjeto
 
     /* arrays con las opciones falsas */
-    const PaisesFalsos = ["Colombia", "Argentina", "Alemania", "Australia", "China", "Isrrael", "Congo","Indonesia"]
+    const PaisesFalsos = ["Colombia", "Argentina", "Alemania", "Australia", "China", "Isrrael", "Congo", "Indonesia"]
 
     /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /* ESCOJE 3 VALORES FALSOS A AZAR */
@@ -266,75 +270,6 @@ CuestionarioBase.leerCinco = async (req, res) => {
 }
 
 
-CuestionarioBase.leerBase = async (req, res) => {
-    /* res.send('hola mundo')  */
-
-    /* creo una constante y le asigno el valor de guardarmodelo  esta se le agrega la propiedadd  .find */
-    /* esta le permite recorer y extraer  todos los json guardados */
-
-    /* sacamos el indice del usuario */
-
-    const identificador = req.params.indexUsuario  /* se crea una constante donde guarde los datos
-     para sacar el id que se suministro por fronent (req)
-     para sacarlo de los parametros de la web (params)
-      para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
-
-    const usuarioUnico = await Cuestionario.findById({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
-        req.body) /* muestraun usuario index todo lo que le llegue por el req.bodyen el _id encontrado  con findById*/
-
-    res.json(usuarioUnico)
-
-
-}
-
-
-CuestionarioBase.modificar = async (req, res) => {
-    /*  res.send('Eviando una orden Post')  */
-
-
-    /* sacamos el indice del usuario */
-
-    const identificador = req.params.indexUsuario  /* se crea una constante donde guarde los datos
-     para sacar el id que se suministro por fronent (req)
-     para sacarlo de los parametros de la web (params)
-      para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
-
-    /* con los siguientes comandos se busca el usuario usando la id suministrada */
-
-    await Cuestionario.findByIdAndUpdate({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
-        req.body) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
-
-    res.json({
-        mensaje: "Mensaje desde el Backend: modifica el usuario con el id "
-    })
-
-}
-
-CuestionarioBase.borrar = async (req, res) => {
-    /*  res.send('Eviando una orden Delete')  */
-
-    /* se usa tambien el id del usuario en la base de datos */
-    const identificador = req.params.indexUsuario  /* se crea una constante donde guarde los datos
-    para sacar el id que se suministro por fronent (req)
-    para sacarlo de los parametros de la web (params)
-     para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
-
-    await Cuestionario.findByIdAndDelete({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
-        req.body) /* elimina todo lo que le llegue por el req.bodyen el _id encontrado  con findByIdAndDelete */
-
-    res.json({
-
-        mensaje: "Mensaje desde el Backend: usuario fue eliminado desde el put"
-
-
-    })
-
-}
-
-/*      titulo,
-        autor,
-        genero,
-        ficha */
 
 
 

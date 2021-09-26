@@ -24,11 +24,6 @@ route.get('/listarjugadores',UserControl.LeerJugador )
 
 
 
-route.get('/obtener/:indexUsuario',UserControl.leerBase )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
-route.put('/modificar/:indexUsuario',UserControl.modificar )/* se selecciona la funcion que coresponde con la orden se adiciona el :index  para operaciones de modificacion de clientes */
-route.delete('/eliminar/:indexUsuario',UserControl.borrar )
-
-
 
 
 module.exports = route                                                                                                                                                       
