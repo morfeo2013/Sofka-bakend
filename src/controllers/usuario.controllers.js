@@ -4,6 +4,11 @@ const NivelPaloma = require('../models/usuario.models2')
 const NivelGaviota = require('../models/usuario.models3')
 const NivelCondor = require('../models/usuario.models4')
 const NivelAguila = require('../models/usuario.models5')
+
+/* BASE DATOS PARA LOS JUGADORES */
+const IngresoJugador = require('../models/jugadores.models')
+
+const LeerJugador = require('../models/jugadores.models')
 /* req es entrada del fronrnent 
     y res es la salida del bakend */
 
@@ -51,23 +56,48 @@ class MezclarArrays2 {
 }
 
 
-CuestionarioBase.crear = async (req, res) => {
+CuestionarioBase.LeerJugador = async (req, res) => {
+const listarJugadores =await IngresoJugador.find({})
+res.json(listarJugadores)/* envio el objeto como json  */
+}
+
+
+
+CuestionarioBase.crearJugador = async (req, res) => {
 
     /* res.send('CREAR USUARIO funcion post') */
     /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
-    const { pregunta, respuesta } = req.body   /* estos corresponde a los del models.js */
+    
+    const { nombre, puntaje } = req.body   /* estos corresponde a los del models.js */
+
+
+    /* VALIDACION DE USUARIO */
+    /* antes de ingresar el Nuevo jugador se realiza una verificacion si ya esta en la base de datos */
+  
+
+
+      /* SE HARA UNA VERIFICACION EN LA BASE DE DATOS DI EL CORREO INGRESADO ESTA YA CREADO */
+      const VerificacionJugador = await IngresoJugador.findOne({ nombre: nombre })
+      /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo) */
+  
+      /* crea la condicion si esta repetido se us con if y else*/
+      if (VerificacionJugador) {
+          res.json({ mensage: 'Lo sentimos, pero solo puedes participar una sola vez' })
+  
+      } else {
+    
 
 
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo asignando la informacion*/
-    const nuevousuario = new NivelAguila({
-        pregunta,
-        respuesta,
+    const nuevousuario = new IngresoJugador({
+        nombre,
+        puntaje,
 
 
     })
     await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
-    res.json({ mensaje: 'Mensaje desde el Backend: Usuario gardado exitosamente' }) /* este mensaje se puede mostrar en el frontent */
-
+    res.json({ mensaje: 'Mensaje desde el Backend: Jugador Agregado' }) /* este mensaje se puede mostrar en el frontent */
+}
 
 }
 

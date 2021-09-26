@@ -4,6 +4,8 @@ const UserControl = require('../controllers/usuario.controllers')/* importar el 
 
 /* ACA SE CREAN LAS RUTAS QUESERAN LEIDAS EN LA WEB */
 
+/* RUTAS NIVEL DE DIFICULTAD PREGUNTAS */
+
 route.get('/NivelCanario',UserControl.leerUno )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
 
 route.get('/NivelPaloma',UserControl.leerDos )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
@@ -15,11 +17,18 @@ route.get('/NivelCondor',UserControl.leerCuatro )/* realizar la peticion get,put
 route.get('/NivelAguila',UserControl.leerCinco )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
 
 
+
+route.post('/jugador',UserControl.crearJugador )
+
+route.get('/listarjugadores',UserControl.LeerJugador )
+
+
+
 route.get('/obtener/:indexUsuario',UserControl.leerBase )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
 route.put('/modificar/:indexUsuario',UserControl.modificar )/* se selecciona la funcion que coresponde con la orden se adiciona el :index  para operaciones de modificacion de clientes */
 route.delete('/eliminar/:indexUsuario',UserControl.borrar )
 
 
-route.post('/crear2',UserControl.crear )
+
 
 module.exports = route                                                                                                                                                       
