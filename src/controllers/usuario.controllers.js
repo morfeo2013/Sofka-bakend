@@ -130,7 +130,18 @@ CuestionarioBase.leerUno = async (req, res) => {
     /* utilizo la clase par amezclar las cuatro opciones */
     const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
 
-    res.json(pregunta + " " + arr)
+    res.json(
+        
+        {
+            pregunta:pregunta,
+            arr: arr,
+            verdadera:respuesta
+        }
+        
+        
+        
+        
+        )
     /*  res.json(pregunta+" "+respuesta) */
 
 
@@ -165,8 +176,18 @@ CuestionarioBase.leerDos = async (req, res) => {
     /* utilizo la clase par amezclar las cuatro opciones */
     const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
 
-    res.json(pregunta + " " + arr)
-    /*  res.json(pregunta+" "+respuesta) */
+    res.json(
+        
+        {
+            pregunta:pregunta,
+            arr: arr,
+            verdadera:respuesta
+        }
+        
+        
+        
+        
+        )
 
 
 
@@ -198,8 +219,18 @@ CuestionarioBase.leerTres = async (req, res) => {
     /* utilizo la clase par amezclar las cuatro opciones */
     const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
 
-    res.json(pregunta + " " + arr)
-    /*  res.json(pregunta+" "+respuesta) */
+    res.json(
+        
+        {
+            pregunta:pregunta,
+            arr: arr,
+            verdadera:respuesta
+        }
+        
+        
+        
+        
+        )
 
 
 
@@ -230,10 +261,18 @@ CuestionarioBase.leerCuatro = async (req, res) => {
     /* utilizo la clase par amezclar las cuatro opciones */
     const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
 
-    res.json(pregunta + " " + arr)
-    /*  res.json(pregunta+" "+respuesta) */
-
-
+    res.json(
+        
+        {
+            pregunta:pregunta,
+            arr: arr,
+            verdadera:respuesta
+        }
+        
+        
+        
+        
+        )
 
 }
 
@@ -260,11 +299,20 @@ CuestionarioBase.leerCinco = async (req, res) => {
     /* reorganizo las cuatro posibles opciones */
 
     /* utilizo la clase par amezclar las cuatro opciones */
-    const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
+    const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas).toString();
 
-    res.json(pregunta + " " + arr)
-    /*  res.json(pregunta+" "+respuesta) */
-
+    res.json(
+        
+        {
+            pregunta:pregunta,
+            arr: arr,
+            verdadera:respuesta
+        }
+        
+        
+        
+        
+        )
 
 
 }
