@@ -299,7 +299,7 @@ CuestionarioBase.leerCinco = async (req, res) => {
     /* reorganizo las cuatro posibles opciones */
 
     /* utilizo la clase par amezclar las cuatro opciones */
-    const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas).toString();
+    const arr = new MezclarArrays2(RespuestasFalsasXVerdaderas);
 
     res.json(
         
